@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { injectable } from 'inversify';
 import apiClient from '../../core/apliClient';
 import { IMovie } from '../interfaces/Movie';

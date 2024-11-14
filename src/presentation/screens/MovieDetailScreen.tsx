@@ -12,8 +12,6 @@ const MovieDetailScreen = () => {
     const { movieId } = route.params;
     const { movie, error, isLoading } = useMovieDetailsViewModel(movieId);
 
-    console.log('Error: ', error);
-
     if (isLoading) {
         return (
             <View style={styles.loadingContainer}>

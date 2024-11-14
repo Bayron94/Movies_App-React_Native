@@ -16,7 +16,6 @@ export const useMoviesViewModel = (getPopularMovies: GetPopularMovies) => {
                 const response = await getPopularMovies.execute();
                 setMovies(response);
             } catch (e) {
-                // console.log('Error:', e);
                 setError('Error al cargar películas');
             } finally {
                 setLoading(false);

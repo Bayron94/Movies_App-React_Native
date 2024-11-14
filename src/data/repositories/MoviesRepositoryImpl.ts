@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { MoviesRepository } from '../../domain/repositories/MoviesRepository';
 import { Movie } from '../../domain/entities/Movie';
 import { MovieMapper } from '../mappers/MovieMapper';
