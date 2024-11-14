@@ -2,6 +2,7 @@ export interface Movie {
     id: number;
     title: string;
     overview: string;
-    releaseDate: string;
-    posterPath: string;
+    posterPath: string,
+    releaseDate: string,
+    voteAverage: number
 }

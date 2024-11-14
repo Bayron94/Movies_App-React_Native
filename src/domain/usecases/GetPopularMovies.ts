@@ -1,7 +1,12 @@
-import { MoviesRepository } from '../repositories/MoviesRepository';
+import { injectable, inject } from 'inversify';
+import type { MoviesRepository } from '../repositories/MoviesRepository';
+import { TYPES } from '../../core/dependencies/dependencies_container';
 
+@injectable()
 export class GetPopularMovies {
-    constructor(private moviesRepository: MoviesRepository) { }
+    constructor(
+        @inject(TYPES.MoviesRepository) private moviesRepository: MoviesRepository
+    ) { }
 
     async execute() {
         return this.moviesRepository.getPopularMovies();

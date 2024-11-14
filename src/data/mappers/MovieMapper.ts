@@ -9,6 +9,7 @@ export class MovieMapper {
             overview: movie.overview,
             releaseDate: movie.release_date,
             posterPath: movie.poster_path,
+            voteAverage: movie.vote_average,
         };
     }
 }

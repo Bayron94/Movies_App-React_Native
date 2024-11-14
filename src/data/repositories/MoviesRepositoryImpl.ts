@@ -2,13 +2,14 @@ import { MoviesRepository } from '../../domain/repositories/MoviesRepository';
 import { Movie } from '../../domain/entities/Movie';
 import { MovieMapper } from '../mappers/MovieMapper';
 import { MoviesRemoteDataSource } from '../datasources/MoviesRemoteDataSource';
+import { injectable, inject } from 'inversify';
+import { TYPES } from '../../core/dependencies/dependencies_container';
 
+@injectable()
 export class MoviesRepositoryImpl implements MoviesRepository {
-    private remoteDataSource: MoviesRemoteDataSource;
-
-    constructor(remoteDataSource: MoviesRemoteDataSource) {
-        this.remoteDataSource = remoteDataSource;
-    }
+    constructor(
+        @inject(TYPES.MoviesRemoteDataSource) private remoteDataSource: MoviesRemoteDataSource
+    ) { }
 
     async getPopularMovies(): Promise<Movie[]> {
         const moviesDTO = await this.remoteDataSource.fetchPopularMovies();

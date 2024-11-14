@@ -1,7 +1,8 @@
-// src/data/datasources/remote/MoviesRemoteDataSource.ts
+import { injectable } from 'inversify';
 import apiClient from '../../core/apliClient';
 import { IMovie } from '../interfaces/Movie';
 
+@injectable()
 export class MoviesRemoteDataSource {
     async fetchPopularMovies(): Promise<IMovie[]> {
         const response = await apiClient.get('/movie/popular');
