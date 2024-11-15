@@ -7,7 +7,6 @@ import { MoviesRepositoryImpl } from '../../data/repositories/MoviesRepositoryIm
 import { MovieCard } from '../components/MovieCard';
 
 export const HomeScreen = () => {
-    // const getPopularMovies = container.get<GetPopularMovies>(TYPES.GetPopularMovies);
     const moviesRemoteDataSource = new MoviesRemoteDataSource();
     const moviesRepository = new MoviesRepositoryImpl(moviesRemoteDataSource);
     const getPopularMovies = new GetPopularMovies(moviesRepository);

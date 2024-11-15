@@ -1,4 +1,3 @@
-// src/presentation/screens/MovieDetailScreen.tsx
 import React from 'react';
 import { View, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
