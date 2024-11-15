@@ -1,79 +1,127 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Movies App
 
-# Getting Started
+Esta es una aplicación de React Native que muestra una lista de películas populares y permite ver los detalles de cada una. La aplicación utiliza el patrón **MVVM** para organizar la lógica de negocio en `HomeScreen` y **RTK Query** para realizar consultas de datos en el detalle de las películas.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Estructura de la Aplicación
 
-## Step 1: Start the Metro Server
+- **HomeScreen**: Muestra una lista de películas populares. Implementa el patrón **MVVM** para organizar la lógica y separar las responsabilidades de la interfaz y la obtención de datos.
+- **DetailScreen**: Muestra los detalles de una película seleccionada. Usa **RTK Query** para manejar las consultas de la API de manera eficiente, simplificando el manejo de estados de carga y errores.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Tecnologías Utilizadas
 
-To start Metro, run the following command from the _root_ of your React Native project:
+- **React Native**: Framework para construir aplicaciones móviles nativas.
+- **TypeScript**: Lenguaje que permite tipado estático para un código más seguro y claro.
+- **RTK Query**: Herramienta de `Redux Toolkit` que facilita las consultas a la API y el manejo de cache.
+- **Axios**: Cliente HTTP utilizado para obtener datos de la API en `HomeScreen`.
+- **React Navigation**: Biblioteca para manejar la navegación entre pantallas.
 
-```bash
-# using npm
-npm start
+## Instalación
 
-# OR using Yarn
-yarn start
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/Bayron94/Movies_App-React_Native.git
+   ```
+2. Navega al directorio del proyecto:
+   ```bash
+   cd movies-app
+   ```
+3. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+4. Configura el archivo `.env` con tu API Key de TMDb:
+   ```plaintext
+   API_KEY_TMDB=tu_api_key_aqui
+   ```
+
+5. Inicia la aplicación en un emulador o dispositivo físico:
+   ```bash
+   npx react-native run-android # Para Android
+   npx react-native run-ios     # Para iOS
+   ```
+
+## Estructura del Proyecto
+
+La estructura del proyecto sigue el patrón MVVM y está organizada de la siguiente manera:
+
+```plaintext
+src
+├── core
+│   └── dependencies
+│   │   └── dependencies_container.ts # Configuración de contenedores de dependencias (Inversify o similar)
+│   └── moviesApi.ts                  # Configuración de RTK Query para obtener detalles de películas
+├── data
+│   ├── datasource
+│   │   └── MoviesRemoteDataSource.ts # DataSource para obtener películas populares con Axios
+│   ├── interfaces
+│   │   └── MoviesRepository.ts      # Interfaz del repositorio de películas
+│   ├── mappers
+│   │   └── MovieMapper.ts           # Mapeo de datos de API a entidad Movie
+│   └── repositories
+│       └── MoviesRepositoryImpl.ts  # Implementación del repositorio de películas
+├── domain
+│   ├── entities
+│   │   └── Movie.ts                 # Entidad Movie
+│   └── repositories
+│       └── MoviesRepository.ts      # Interfaz del repositorio de películas
+│   └── usecases
+│       └── GetPopularMovies.ts      # UseCase para obtener películas populares
+├── presentation
+│   ├── screens
+│   │   ├── HomeScreen.tsx           # Pantalla principal con lista de películas
+│   │   └── MovieDetailScreen.tsx    # Pantalla de detalle de la película
+│   └── viewmodels
+│       ├── HomeViewModel.ts         # ViewModel de HomeScreen con MVVM
+│       └── MovieDetailsViewModel.ts # ViewModel para obtener detalles de película usando RTK Query
+└── navigation
+    └── AppNavigator.tsx             # Configuración de la navegación de la aplicación
 ```
 
-## Step 2: Start your Application
+## Funcionalidades
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+### HomeScreen (Lista de Películas)
 
-### For Android
+- **Patrón MVVM**: La lógica de negocio se separa de la interfaz en `HomeScreen`.
+  - **ViewModel (`HomeViewModel`)**: Administra la lógica de obtención de datos de la API usando `MoviesRemoteDataSource`.
+  - **Data Source (`MoviesRemoteDataSource`)**: Utiliza Axios para obtener las películas populares desde la API de TMDb.
+  - **MovieMapper**: Mapea los datos obtenidos en el formato necesario para la aplicación.
 
-```bash
-# using npm
-npm run android
+- **Pantalla de Lista de Películas**:
+  - Muestra una lista de películas populares con sus imágenes y títulos.
+  - Incluye un estado de carga (`loading`) mientras los datos se están obteniendo.
+  - Muestra un mensaje de error en caso de que la obtención de datos falle.
 
-# OR using Yarn
-yarn android
-```
+### DetailScreen (Detalle de Película)
 
-### For iOS
+- **RTK Query**: Utiliza `RTK Query` para gestionar la consulta de datos de una película específica.
+  - El detalle de cada película incluye la imagen, el título, la fecha de lanzamiento, el promedio de votación y una descripción.
 
-```bash
-# using npm
-npm run ios
+- **Ventajas de RTK Query**:
+  - **Manejo Automático de Estado**: `RTK Query` se encarga de gestionar el estado de carga y error, simplificando la lógica en el componente.
+  - **Cache de Resultados**: Los resultados de las consultas se almacenan en caché automáticamente, mejorando el rendimiento de la aplicación.
 
-# OR using Yarn
-yarn ios
-```
+## Ejecución de Pruebas
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+La aplicación incluye pruebas unitarias para `HomeScreen` y `MovieDetailScreen` usando Jest y Testing Library. Estas pruebas verifican el renderizado correcto, el manejo de estados de carga y errores, y la navegación entre pantallas.
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+1. Para ejecutar las pruebas, usa el siguiente comando:
+   ```bash
+   npm test
+   ```
 
-## Step 3: Modifying your App
+2. Las pruebas cubren:
+   - Renderizado de componentes.
+   - Manejo de estados de carga y error.
+   - Navegación de `HomeScreen` a `MovieDetailScreen`.
 
-Now that you have successfully run the app, let's modify it.
+## Posibles Mejoras
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+- **Almacenamiento en caché de películas populares** para mejorar el rendimiento.
+- **Pruebas adicionales** para casos más complejos de errores y manejo de navegación.
+- **Incorporación de Local Storage** para guardar configuraciones de usuario o historial de vistas.
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+## Contribuciones
 
-## Congratulations! :tada:
+Las contribuciones son bienvenidas. Si deseas mejorar esta aplicación, siéntete libre de enviar un pull request o abrir un issue para discutir mejoras o reportar errores.
 
-You've successfully run and modified your React Native App. :partying_face:
 
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
